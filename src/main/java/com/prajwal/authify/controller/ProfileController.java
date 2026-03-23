@@ -1,0 +1,26 @@
+package com.prajwal.authify.controller;
+
+import com.prajwal.authify.dto.ProfileRequest;
+import com.prajwal.authify.dto.ProfileResponse;
+import com.prajwal.authify.service.ProfileService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/v1.0")
+@RequiredArgsConstructor
+public class ProfileController {
+
+    private final ProfileService profileService;
+
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProfileResponse register(@Valid @RequestBody ProfileRequest profileRequest)
+    {
+        ProfileResponse response=profileService.createProfile(profileRequest);
+        //TODO : send welcome email to the user
+        return response;
+    }
+}
