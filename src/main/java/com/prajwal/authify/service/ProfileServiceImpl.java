@@ -6,6 +6,7 @@ import com.prajwal.authify.entity.UserEntity;
 import com.prajwal.authify.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -16,6 +17,7 @@ import java.util.UUID;
 public class ProfileServiceImpl implements ProfileService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public ProfileResponse createProfile(ProfileRequest profileRequest) {
@@ -44,7 +46,7 @@ public class ProfileServiceImpl implements ProfileService {
                 .email(profileRequest.getEmail())
                 .userId(UUID.randomUUID().toString())
                 .name(profileRequest.getName())
-                .password(profileRequest.getPassword())
+                .password(passwordEncoder.encode(profileRequest.getPassword()))
                 .accountVerified(false)
                 .resetOtpExpireAt(null)
                 .resetOtp(null)
